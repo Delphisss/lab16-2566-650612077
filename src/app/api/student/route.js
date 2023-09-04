@@ -144,5 +144,6 @@ export const DELETE = async (request) => {
   });
 };
 
-//https://lab16-2566-650610560.vercel.app/
-//http://localhost:3000/
+//https://lab16-2566-650610560.vercel.app/   -> test
+//http://localhost:3000/   -> send
+//https://lab16-2566-650612077.vercel.app/ -> send

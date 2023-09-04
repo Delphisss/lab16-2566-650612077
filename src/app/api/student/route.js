@@ -126,7 +126,7 @@ export const DELETE = async (request) => {
     );
   }
 
-  DB.students = DB.students.filter((std) => DB.studentId !== parseResult);
+  DB.students = DB.students.filter((std) => std.studentId !== body.studentId);
   //get body and validate it
 
   //check if student id exist

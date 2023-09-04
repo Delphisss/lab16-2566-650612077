@@ -1,5 +1,6 @@
 import { DB } from "@/app/libs/DB";
 import {
+  zStudentDeleteBody,
   zStudentGetParam,
   zStudentPostBody,
   zStudentPutBody,
@@ -31,6 +32,9 @@ export const GET = async (request) => {
   }
 
   //filter by student id here
+  if (studentId !== null) {
+    filtered = filtered.filter((std) => std.studentId === studentId);
+  }
 
   return NextResponse.json({ ok: true, students: filtered });
 };
@@ -97,6 +101,32 @@ export const PUT = async (request) => {
 };
 
 export const DELETE = async (request) => {
+  const body = await request.json();
+  const parseResult = zStudentDeleteBody.safeParse(body);
+  if (parseResult.success === false) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Student Id must contain 9 characters",
+      },
+      { status: 400 }
+    );
+  }
+
+  const foundIndex = DB.students.findIndex(
+    (std) => std.studentId === body.studentId
+  );
+  if (foundIndex === -1) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Student ID does not exist",
+      },
+      { status: 404 }
+    );
+  }
+
+  DB.students = DB.students.filter((std) => DB.studentId !== parseResult);
   //get body and validate it
 
   //check if student id exist
@@ -110,6 +140,9 @@ export const DELETE = async (request) => {
 
   return NextResponse.json({
     ok: true,
-    message: `Student Id xxx has been deleted`,
+    message: `Student Id ${body.studentId} has been deleted`,
   });
 };
+
+//https://lab16-2566-650610560.vercel.app/
+//http://localhost:3000/
